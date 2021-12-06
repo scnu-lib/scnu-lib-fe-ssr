@@ -1,9 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { useRouter } from 'next/router'
+import Banner from '../components/banner'
+import styles from '../styles/Home.module.css';
+import comStyle from '../styles/component.module.css';
+import 'tailwindcss/tailwind.css'
+import cn from 'classnames';
 
-const Home: NextPage = () => {
+const Home: NextPage = ({data}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
+  //获取当前路由地址可通过router.pathname判断
   return (
     <div className={styles.container}>
       <Head>
@@ -12,61 +19,38 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <main>
+        <Banner imageUrl = {comStyle.bannerBg}>
+          <div className={cn('flex', 'flex-col', 'items-end', 'justify-center')}>
+            <div className={cn('text-gray-300', 'text-lg', 'font-semibold')}>欢迎<br />WELCOME</div>
+            <div className={cn(comStyle.primaryFont, 'text-5xl', 'font-bold')}>来到华师阅马平台</div>
+            <div className={cn('text-3xl', 'font-extrabold')}>SCNU-LIB</div>  
+          </div>  
+        </Banner>
+        <Banner 
+          className = {cn('mb-14')}
+          reverse = {true} 
+          imageUrl = {comStyle.introBg} 
+          rotateAngle={0}
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+          <div className={cn(comStyle.introWd, 'flex', 'flex-col', 'items-start', 'justify-center')}>
+            <div className={cn('text-gray-300', 'text-4xl', 'font-bold')}>关于我们</div>
+            <div className={cn(comStyle.primaryFont, 'text-base', 'font-semibold')}>这里有活动的发布和查看，</div>
+            <div className={cn('text-3xl', 'font-extrabold')}>SCNU-LIB</div>  
+          </div> 
+        </Banner>
+      </main>      
     </div>
   )
+}
+
+export const getStaticProps: GetStaticProps =async ()=>{
+  //测试用,后期封装
+  let res = await fetch('https://lib.scnu.life/api/activity/activities?labels&sort=id,DESC',{method: 'get'});
+  let data =await res.json();
+  return {
+    props: {data},
+  };
 }
 
 export default Home

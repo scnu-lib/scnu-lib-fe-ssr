@@ -1,0 +1,32 @@
+.navHt{
+  height: 70px;
+}
+
+.showImg{
+  width: 36vw;
+  height: 30vw;
+}
+
+.bannerHeight{
+  height: 60vh;
+}
+
+.bannerBg{
+  background-image: url('../public/images/book_lover.png');
+}
+
+.introWd{
+  width: 40vw;
+}
+
+.introBg{
+  background-image: url('../public/images/Books.png');
+}
+
+.primaryFont{
+  color: #716DBD;
+}
+
+.primaryBg{
+  background-color: #716DBD;
+}
